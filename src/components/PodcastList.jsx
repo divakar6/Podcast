@@ -4,7 +4,7 @@ import PodcastPlayer from '../components/PodcastPlayer';
 const PodcastList = ({ podcasts, onDelete }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Filter podcasts based on the search query
+  
   const filteredPodcasts = podcasts.filter(podcast =>
     podcast.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -12,7 +12,7 @@ const PodcastList = ({ podcasts, onDelete }) => {
   return (
     <div className="podcast-list">
       <h2>My Podcasts</h2>
-      {/* Search Bar */}
+      
       <input
         type="text"
         placeholder="Search podcasts..."

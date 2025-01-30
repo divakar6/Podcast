@@ -92,3 +92,13 @@ button:hover {
   border-color: #3498db;
   box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
 }
+
+.switch-btn {
+  display: block;
+  margin: 10px auto;
+  background-color: transparent;
+  border: none;
+  color: black;
+  cursor: pointer;
+  text-decoration: underline;
+}
