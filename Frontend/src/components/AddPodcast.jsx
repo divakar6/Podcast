@@ -16,12 +16,12 @@ const AddPodcast = ({ onAdd }) => {
     try {
       const response = await axios.post('http://localhost:5000/api/podcasts', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Required for file uploads
+          'Content-Type': 'multipart/form-data', 
         },
       });
 
       console.log('Podcast uploaded successfully:', response.data);
-      onAdd(response.data); // Notify parent component
+      onAdd(response.data); 
       setTitle('');
       setAudio(null);
     } catch (error) {

@@ -14,7 +14,7 @@ const App = () => {
   useEffect(() => {
     const fetchPodcasts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/podcasts');
+        const response = await axios.get('https://podcast-moya.onrender.com/api/podcasts');
         setPodcasts(response.data);
       } catch (error) {
         console.error('Error fetching podcasts:', error);
@@ -28,7 +28,7 @@ const App = () => {
 
   const handleAddPodcast = async (formData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/podcasts', formData, {
+      const response = await axios.post('https://podcast-moya.onrender.com/api/podcasts', formData, {
         headers: {
           'Content-Type': 'multipart/form-data', 
         },
@@ -36,7 +36,7 @@ const App = () => {
 
       console.log('Podcast uploaded successfully:', response.data);
 
-      const podcastsResponse = await axios.get('http://localhost:5000/api/podcasts');
+      const podcastsResponse = await axios.get('https://podcast-moya.onrender.com/api/podcasts');
       setPodcasts(podcastsResponse.data);
     } catch (error) {
       console.error('Error uploading podcast:', error);
@@ -45,7 +45,7 @@ const App = () => {
 
   const handleDeletePodcast = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/podcasts/${id}`);
+      await axios.delete(`https://podcast-moya.onrender.com/api/podcasts/${id}`);
       setPodcasts(podcasts.filter((podcast) => podcast._id !== id));
     } catch (error) {
       console.error('Error deleting podcast:', error);
@@ -75,7 +75,7 @@ const App = () => {
 
       const storedUser = JSON.parse(localStorage.getItem('user'));
   
-      if (storedUser && storedUser.email === user.email) {
+      if ((storedUser && storedUser.email === user.email)&&(storedUser.password===user.password)) {
         localStorage.setItem('token', mockToken); 
         setIsAuthenticated(true); 
         console.log('Login successful:', storedUser); 
