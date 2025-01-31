@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Import axios
 import Header from './components/Header';
 import Signup from './components/Signup';
 import Login from './components/Login';
@@ -9,6 +10,47 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showSignup, setShowSignup] = useState(true);
   const [podcasts, setPodcasts] = useState([]);
+
+  useEffect(() => {
+    const fetchPodcasts = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/podcasts');
+        setPodcasts(response.data);
+      } catch (error) {
+        console.error('Error fetching podcasts:', error);
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchPodcasts();
+    }
+  }, [isAuthenticated]);
+
+  const handleAddPodcast = async (formData) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/podcasts', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', 
+        },
+      });
+
+      console.log('Podcast uploaded successfully:', response.data);
+
+      const podcastsResponse = await axios.get('http://localhost:5000/api/podcasts');
+      setPodcasts(podcastsResponse.data);
+    } catch (error) {
+      console.error('Error uploading podcast:', error);
+    }
+  };
+
+  const handleDeletePodcast = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/podcasts/${id}`);
+      setPodcasts(podcasts.filter((podcast) => podcast._id !== id));
+    } catch (error) {
+      console.error('Error deleting podcast:', error);
+    }
+  };
 
   const handleSignup = async (user) => {
     try {
@@ -25,7 +67,7 @@ const App = () => {
       console.error('Error signing up:', error);
     }
   };
-  
+
   const handleLogin = async (user) => {
     try {
 
@@ -43,13 +85,6 @@ const App = () => {
     } catch (error) {
       console.error('Error logging in:', error);
     }
-  };
-    const handleAddPodcast = (newPodcast) => {
-    setPodcasts([...podcasts, newPodcast]);
-  };
-
-  const handleDeletePodcast = (id) => {
-    setPodcasts(podcasts.filter((podcast) => podcast.id !== id));
   };
 
   return (

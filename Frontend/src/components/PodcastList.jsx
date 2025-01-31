@@ -31,7 +31,7 @@ const PodcastList = ({ podcasts, onDelete }) => {
               onClick={() => onDelete(podcast.id)}
               className="delete-btn"
             >
-              <i class="ri-delete-bin-6-line"></i>
+              <i className="ri-delete-bin-6-line"></i>
             </button>
           </div>
         ))

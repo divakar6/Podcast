@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
+import axios from 'axios'; 
 
 const AddPodcast = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [audio, setAudio] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title || !audio) return;
-    
-    const newPodcast = {
-      id: Date.now(),
-      title,
-      audioUrl: URL.createObjectURL(audio)
-    };
-    
-    onAdd(newPodcast);
-    setTitle('');
-    setAudio(null);
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('audio', audio);
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/podcasts', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Required for file uploads
+        },
+      });
+
+      console.log('Podcast uploaded successfully:', response.data);
+      onAdd(response.data); // Notify parent component
+      setTitle('');
+      setAudio(null);
+    } catch (error) {
+      console.error('Error uploading podcast:', error);
+    }
   };
 
   return (
